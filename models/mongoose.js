@@ -1,7 +1,8 @@
-
+const dotenv = require('dotenv')
+dotenv.config()
 function setup(mongoose) {
 
-mongoose.connect('mongodb+srv://innominate3301:Qsie1mYXxB3cKNvg@library.oqujev3.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGO_URL)
 
 const { Schema } = require('mongoose')
 

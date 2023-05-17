@@ -2,16 +2,29 @@ var express = require('express');
 const { setup } = require('../models/mongoose');
 const { default: mongoose } = require('mongoose');
 var router = express.Router();
+const passport = require('passport')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  const { title, text, author } = req.body
+router.get('/', passport.authenticate('jwt', { session: false }),
+  async function(req, res) {
+  console.log(req.user)
+    
   setup(mongoose)
-  const Comment = mongoose.models('comment')
-  const comments = Comment.find()
-  const Post = mongoose.models('post')
-  const posts = Post.find() 
-  res.render('index',{ comments, posts });
-});
+  const Comment = mongoose.model('comment')
+  const comments = await Comment.find()
+  const Post = mongoose.model('post')
+  const posts = Post.find({}).populate({
+    path: 'author',
+    select: 'username'
+  }).then((posts) => {
+    // console.log(messages)
+    res.render('index', { posts, comments });
+  }).catch((err) => {
+    handleError(err);
+  });
+
+})
+
+
 
 module.exports = router;

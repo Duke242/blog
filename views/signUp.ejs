@@ -8,6 +8,13 @@
 </head>
 <body>
   <h1>Sign Up</h1>
+  <% if (messages.error) { %>
+    <div class="alert alert-danger" style="border: 1px solid darkred; background: rgb(236, 93, 77); padding: 1rem; width: fit-content; border-radius: 1rem; margin-bottom: 1rem; ">
+      <% messages.error.forEach(function(error) { %>
+        <p><%= error %></p>
+      <% }); %>
+    </div>
+  <% } %>  
   <form action="/signUp" method="POST">
     <label>
       Username

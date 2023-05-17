@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Log In</h1>
+  <% if (messages.length > 0) { %>
+    <% messages.forEach(function(message) { %>
+      <div class="alert alert-info" style="border: 1px solid darkred; background: rgb(236, 93, 77); padding: 1rem; width: fit-content; border-radius: 1rem; margin-bottom: 1rem; ">
+        <%= message %>
+      </div>
+    <% }) %>
+  <% } %>  
+  <form action="/login" method="POST">
+    <input type="text" name="username" placeholder="Username" value="duke">
+    <input type="password" name="password" placeholder="Password" value="dukeee">
+    <button>Log In</button>
+  </form>
+</body>
+</html>
