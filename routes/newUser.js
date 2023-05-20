@@ -1,28 +1,33 @@
 const express = require("express");
+const { setup } = require('../models/mongoose')
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const { setup } = require('../models/mongoose');
-const { default: mongoose } = require("mongoose");
+const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose')
 require("dotenv").config();
 
-// Sign in
+// Make new user
+
 router.post("/", async (req, res) => {
   setup(mongoose)
+  const { username, password } = req.body;
+  const User = mongoose.model('user')
+
   try {
-    const User = mongoose.model('user')
-    const { username, password } = req.body;
     let user = await User.findOne({ username });
-
-    if (!user) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
+    if (user) {
+      return res.status(400).json({ errors: [{ msg: "Email is in use" }] });
     }
 
-    const match = await bcrypt.compare(password, user.password);
+    user = new User({
+      username,
+      password,
+    });
 
-    if (!match) {
-      return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
-    }
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+
+    await user.save();
 
     const payload = {
       user: {

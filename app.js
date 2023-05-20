@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const signUpRouter = require('./routes/signUp')
 const postsRouter = require('./routes/posts')
+const authRouter = require('./routes/auth')
+const newUserRouter = require('./routes/newUser')
 var app = express();
 const loginRouter = require('./routes/login')
 const flash = require('express-flash')
@@ -39,7 +41,9 @@ app.use('/users', usersRouter);
 app.use('/signUp', signUpRouter)
 app.use('/posts', postsRouter)
 app.use('/login', loginRouter)
-app.use('api', apiRouter)
+app.use('/api', apiRouter)
+app.use('/api/auth', authRouter)
+app.use('/api/newUser', newUserRouter)
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

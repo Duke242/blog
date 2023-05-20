@@ -41,7 +41,7 @@ body("confirmPassword", "Password must be at least 3 characters long.")
     setup(mongoose)
     const { username, password } = req.body
     try {
-      const hashedPassword = await bcrypt.hash(req.body.password, 10) 
+      const hashedPassword = await bcrypt.hash(password, 10) 
       setup(mongoose);
       const User = mongoose.model("user");
       const newUser = new User({
